@@ -36,7 +36,9 @@ from flask_heroku import Heroku
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/pre-registration'
 imhere.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-heroku = Heroku(imhere.app)
+
+# heroku = Heroku(imhere.app)
+
 db = SQLAlchemy(imhere.app)
 imhere.app.secret_key = str(uuid.uuid4())
 
