@@ -22,12 +22,12 @@ import os
 import uuid
 
 
-from flask_heroku import Heroku
+# from flask_heroku import Heroku
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
-heroku = Heroku(app)
+# heroku = Heroku(app)
 db = create_engine((app.config['SQLALCHEMY_DATABASE_URI']),
                               pool_size=5)
 app.config['db']=db
