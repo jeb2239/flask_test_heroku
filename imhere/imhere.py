@@ -18,7 +18,19 @@ tmpl_dir = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
+import os
+import uuid
+import sqlalchemy
 
+import imhere
+
+from flask_heroku import Heroku
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+
+# heroku = Heroku(imhere.app)
+
+db = SQLAlchemy(app)
+app.secret_key = str(uuid.uuid4())
 
 @app.before_request
 def before_request():
