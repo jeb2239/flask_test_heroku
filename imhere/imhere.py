@@ -20,9 +20,7 @@ tmpl_dir = os.path.join(
 app = Flask(__name__, template_folder=tmpl_dir)
 import os
 import uuid
-import sqlalchemy
 
-import imhere
 
 from flask_heroku import Heroku
 
