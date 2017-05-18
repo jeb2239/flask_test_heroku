@@ -28,9 +28,12 @@ from flask_heroku import Heroku
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 heroku = Heroku(app)
-db = SQLAlchemy(app)
-app.config['db']=db
+db = sqlalchemy.create_engine((app.config['SQLALCHEMY_DATABASE_URI']),
+                              pool_size=5)
+# app.config['db']=db
+print app.config
 app.secret_key = str(uuid.uuid4())
+
 
 @app.before_request
 def before_request():
@@ -79,7 +82,7 @@ def manage_session():
         flask.session['redirect'] = request.path
         return flask.redirect(flask.url_for('oauth2callback'))
 
-    #TODO: add token expired checking
+    # TODO: add token expired checking
     # credentials = oauth2client.client.OAuth2Credentials.from_json(
     #     flask.session['credentials'])
     # if credentials.access_token_expired:
@@ -138,9 +141,9 @@ def main_student():
 
     if request.method == 'GET':
         return render_template(
-                'main_student.html',
-                signed_in=signed_in,
-                **context)
+            'main_student.html',
+            signed_in=signed_in,
+            **context)
 
     elif request.method == 'POST':
         if 'secret_code' in request.form.keys():
@@ -154,14 +157,15 @@ def main_student():
                 valid = False
 
             return render_template(
-                    'main_student.html',
-                    submitted=True,
-                    valid=valid,
-                    **context)
+                'main_student.html',
+                submitted=True,
+                valid=valid,
+                **context)
         else:
             return render_template('main_student.html',
-                signed_in=signed_in,
-                **context)
+                                   signed_in=signed_in,
+                                   **context)
+
 
 @app.route('/student/view_class/<cid>', methods=['GET'])
 def student_view_class(cid):
@@ -179,8 +183,9 @@ def student_view_class(cid):
     flask.session['redirect'] = '/student/view_class/%s' % cid
 
     return render_template('student_view_class.html',
-        course_name=course_name, attendance_record=attendance_record,
-        present=present, total=total)
+                           course_name=course_name, attendance_record=attendance_record,
+                           present=present, total=total)
+
 
 @app.route('/student/request/<seid>', methods=['POST'])
 def student_change_request(seid):
@@ -193,6 +198,7 @@ def student_change_request(seid):
     redirect = flask.session.pop('redirect', None)
 
     return flask.redirect(redirect or '/student/')
+
 
 @app.route('/teacher/', methods=['GET', 'POST'])
 def main_teacher():
@@ -316,17 +322,17 @@ def view_class():
         context = dict(students=students_with_ar)
 
         return render_template(
-                'view_class.html',
-                cid=cid,
-                secret=secret,
-                course_name=course_name,
-                num_sessions=num_sessions,
-                uni=uni,
-                res=res,
-                teachers=teachers,
-                userid=flask.session['id'],
-                sessions=sessions,
-                **context)
+            'view_class.html',
+            cid=cid,
+            secret=secret,
+            course_name=course_name,
+            num_sessions=num_sessions,
+            uni=uni,
+            res=res,
+            teachers=teachers,
+            userid=flask.session['id'],
+            sessions=sessions,
+            **context)
 
 
 @app.route('/teacher/view_requests/', methods=['GET', 'POST'])
@@ -353,6 +359,7 @@ def view_requests():
         context = dict(data=results)
         return render_template('view_requests.html', **context)
 
+
 @app.route('/teacher/sessions/<seid>', methods=['GET'])
 def view_session(seid):
     sm = sessions_model.Sessions(g.conn, seid)
@@ -360,7 +367,8 @@ def view_session(seid):
     attendance = sm.get_attendance_record()
 
     return render_template('session.html',
-        session=session, attendance=attendance)
+                           session=session, attendance=attendance)
+
 
 @app.route('/teacher/sessions/<seid>', methods=['POST'])
 def update_session(seid):
@@ -395,27 +403,26 @@ def update_session(seid):
     attendance = sm.get_attendance_record()
 
     return render_template('session.html',
-        session=session, attendance=attendance)
-
+                           session=session, attendance=attendance)
 
     # mark present
 
     # mark absent
 
     # update change request
-        # approve or deny
-        # status = 1 -> approve
-            # create attendance record
+    # approve or deny
+    # status = 1 -> approve
+    # create attendance record
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
         return render_template(
-                'register.html',
-                name=flask.session['google_user']['name'],
-                is_student=flask.session['is_student'],
-                is_teacher=flask.session['is_teacher'])
+            'register.html',
+            name=flask.session['google_user']['name'],
+            is_student=flask.session['is_student'],
+            is_teacher=flask.session['is_teacher'])
 
     elif request.method == 'POST':
         if request.form['type'] == 'student':
@@ -431,9 +438,9 @@ def register():
                 return flask.redirect(flask.url_for('main_student'))
             else:
                 return render_template(
-                        'register.html',
-                        name=flask.session['google_user']['name'],
-                        invalid_uni=True)
+                    'register.html',
+                    name=flask.session['google_user']['name'],
+                    invalid_uni=True)
 
         else:
             try:
