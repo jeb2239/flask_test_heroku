@@ -8,8 +8,10 @@ cryptography==1.8.1
 enum34==1.1.6
 Fabric==1.13.2
 Flask==0.12.2
+flask-heroku==0.1.9
 Flask-SQLAlchemy==2.2
 Flask-WTF==0.14.2
+gunicorn==19.7.1
 idna==2.5
 ipaddress==1.0.18
 itsdangerous==0.24
@@ -25,4 +27,3 @@ six==1.10.0
 SQLAlchemy==1.1.9
 Werkzeug==0.12.2
 WTForms==2.1
-gunicorn
