@@ -25,11 +25,13 @@ import sqlalchemy
 import imhere
 
 from flask_heroku import Heroku
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
-# heroku = Heroku(imhere.app)
-
+heroku = Heroku(app)
 db = SQLAlchemy(app)
+app.config['db']=db
 app.secret_key = str(uuid.uuid4())
 
 @app.before_request
