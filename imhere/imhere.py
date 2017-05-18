@@ -7,7 +7,7 @@ import uuid
 import oauth2client
 import apiclient
 import flask
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 from flask import Flask, render_template, request, g
 
@@ -28,10 +28,10 @@ from flask_heroku import Heroku
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 heroku = Heroku(app)
-db = sqlalchemy.create_engine((app.config['SQLALCHEMY_DATABASE_URI']),
+db = create_engine((app.config['SQLALCHEMY_DATABASE_URI']),
                               pool_size=5)
-# app.config['db']=db
-print app.config
+app.config['db']=db
+
 app.secret_key = str(uuid.uuid4())
 
 
