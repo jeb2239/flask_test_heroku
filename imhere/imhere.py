@@ -7,7 +7,7 @@ import uuid
 import oauth2client
 import apiclient
 import flask
-
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 from flask import Flask, render_template, request, g
 
