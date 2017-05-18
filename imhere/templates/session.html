@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Session {{session['seid']}}</title>
+</head>
+<body>
+<center>
+
+<h1>{{session['name']}} {{session['day']}}</h1>
+
+<form action="/teacher/sessions/{{session['seid']}}" method="POST">
+  <button name="action" value="delete_session">Delete Session</button>
+</form>
+
+<h3>Attendance</h3>
+<p>{{session['attendance']}} / {{session['enrollment']}}</p>
+<table>
+{% for rec in attendance %}
+<tr>
+<form action="/teacher/sessions/{{session['seid']}}" method="post">
+  <input type="hidden" name="sid" value="{{rec['uid']}}"></input>
+  <td>{{rec['name']}}</td>
+  <td>{{rec['email']}}</td>
+  {% if rec['present'] != None %}
+    <td>Present</td>
+    <td><button name="action" value="mark_absent">
+      Mark Absent
+    </button></td>
+  {% elif rec['status'] == 0 %}
+    <td>Pending: {{rec['message']}}</td>
+    <td>
+      <button name="action" value="approve">Approve</button>
+      <button name="action" value="deny">Deny</button>
+    </td>
+  {% else %}
+    <td>Absent</td>
+    <td><button name="action" value="mark_present">Mark Present</button></td>
+  {% endif %}
+
+</form>
+</tr>
+{% endfor %}
+</table>
+
+<form action="/teacher/view_class" method="POST">
+  <button name="cid" value="{{session['cid']}}">Go Back</button>
+</form>
+
+</center>
+</body>
+</html>
