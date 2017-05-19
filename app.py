@@ -2,4 +2,5 @@
 import imhere
 
 import os
-imhere.app.run()
+if __name__ == '__main__':
+    imhere.app.run()
