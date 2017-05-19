@@ -524,5 +524,3 @@ if __name__ == '__main__':
         print 'running on %s:%d' % (HOST, PORT)
         app.secret_key = str(uuid.uuid4())
         app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
-
-    run()

@@ -1,1 +1,1 @@
-web: gunicorn app:imhere
+web: gunicorn app:get_app()
