@@ -469,7 +469,7 @@ def oauth2callback():
         auth_code = flask.request.args.get('code')
         credentials = flow.step2_exchange(auth_code)
         flask.session['credentials'] = credentials.to_json()
-
+        app.logger.warning(flask.session)
         # use token to get user profile from google oauth api
         http_auth = credentials.authorize(httplib2.Http())
         userinfo_client = apiclient.discovery.build('oauth2', 'v2', http_auth)
