@@ -70,6 +70,7 @@ def manage_session():
     # validate that user has valid session
     # add the google user info into session
     if 'credentials' not in flask.session:
+        print '---------before redirect--------'
         flask.session['redirect'] = request.path
         return flask.redirect(flask.url_for('oauth2callback'))
 
