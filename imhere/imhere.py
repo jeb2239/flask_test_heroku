@@ -408,6 +408,7 @@ def update_session(seid):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    print "----------in register---------"
     if request.method == 'GET':
         return render_template(
             'register.html',
