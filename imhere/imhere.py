@@ -25,15 +25,6 @@ import uuid
 # from flask_heroku import Heroku
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-
-# heroku = Heroku(app)
-db = create_engine((app.config['SQLALCHEMY_DATABASE_URI']),
-                   pool_size=5)
-app.config['db'] = db
-
-app.secret_key = str(uuid.uuid4())
-
 
 @app.before_request
 def before_request():
@@ -456,6 +447,7 @@ def register():
 
 @app.route('/oauth/callback')
 def oauth2callback():
+
     flow = oauth2client.client.flow_from_clientsecrets(
         'client_secrets.json',
         scope=[
@@ -488,6 +480,7 @@ def oauth2callback():
         flask.session['is_student'] = True if im.is_student() else False
         flask.session['is_teacher'] = True if im.is_teacher() else False
         # issue is here
+        print flask.session
         redirect = flask.session['redirect']
         flask.session.pop('redirect', None)
         return flask.redirect(redirect)
