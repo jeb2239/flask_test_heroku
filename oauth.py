@@ -10,6 +10,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def index():
+    app.logger.warning(flask.session)
     if 'credentials' not in flask.session:
         return flask.redirect(flask.url_for('oauth2callback'))
     credentials = client.OAuth2Credentials.from_json(

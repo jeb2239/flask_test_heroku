@@ -487,7 +487,7 @@ def oauth2callback():
         im = index_model.Index(g.conn, flask.session['id'])
         flask.session['is_student'] = True if im.is_student() else False
         flask.session['is_teacher'] = True if im.is_teacher() else False
-
+        # issue is here
         redirect = flask.session['redirect']
         flask.session.pop('redirect', None)
         return flask.redirect(redirect)
