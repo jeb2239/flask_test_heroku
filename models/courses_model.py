@@ -138,7 +138,6 @@ class Courses(Model):
         result = self.db.execute(query)
         return result.rowcount
 
-
     def get_teachers(self):
         query = '''
             SELECT u.uid, u.name, u.family_name, u.email

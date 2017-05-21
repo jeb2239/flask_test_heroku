@@ -29,8 +29,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 # heroku = Heroku(app)
 db = create_engine((app.config['SQLALCHEMY_DATABASE_URI']),
-                              pool_size=5)
-app.config['db']=db
+                   pool_size=5)
+app.config['db'] = db
 
 app.secret_key = str(uuid.uuid4())
 

@@ -1,0 +1,1 @@
+export DATABASE_URL=postgres://application:app@localhost/postgres

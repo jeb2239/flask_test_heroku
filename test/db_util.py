@@ -8,7 +8,7 @@ def create_test_db():
     returns the database connection and name
     '''
     db = sqlalchemy.create_engine(
-            'postgres://tester:mattsbigpassw0rrd@45.55.87.0:5432/postgres')
+            'postgres://application:app@localhost/postgres')
     conn = db.connect()
     conn.execute('commit')
 
@@ -19,7 +19,7 @@ def create_test_db():
 
     conn.close()
 
-    c_string = 'postgres://tester:mattsbigpassw0rrd@45.55.87.0:5432/{0}'
+    c_string = 'postgres://application:app@localhost/{0}'
     conn_string = c_string.format(db_name)
     db = sqlalchemy.create_engine(conn_string,
                                   poolclass=sqlalchemy.pool.NullPool)
@@ -64,7 +64,7 @@ def destroy_test_db(db_name):
     '''deletes a test db
     '''
     db = sqlalchemy.create_engine(
-        'postgres://tester:mattsbigpassw0rrd@45.55.87.0:5432/postgres')
+        'postgres://application:app@localhost/postgres')
     conn = db.connect()
     conn.execute('commit')
 
